@@ -105,7 +105,7 @@ test('manuelle Bilder werden aufgenommen', async () => {
   const res = await runSync(opts(root, routes, { beholdUrl: undefined }));
   assert.equal(res.addedPhotos, 1);
   const [photo] = await read(root, 'photos.json');
-  assert.equal(photo.id, 'manual_2024-12-24-weihnacht');
+  assert.match(photo.id, /^manual_2024-12-24-weihnacht-[0-9a-f]{6}$/);
   assert.equal(photo.source, 'manual');
   assert.equal(photo.permalink, null);
   assert.equal(photo.date, '2024-12-24T12:00:00.000Z');

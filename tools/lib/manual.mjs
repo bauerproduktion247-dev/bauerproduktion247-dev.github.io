@@ -1,17 +1,20 @@
 import { readdir, stat } from 'node:fs/promises';
 import { join } from 'node:path';
+import { createHash } from 'node:crypto';
 
 const IMAGE_EXT = /\.(jpe?g|png|webp|avif|tiff?)$/i;
 
 export function manualId(filename) {
-  const slug = filename
+  const name = filename.normalize('NFC');
+  const hash = createHash('sha1').update(name).digest('hex').slice(0, 6);
+  const slug = name
     .replace(/\.[^.]+$/, '')
     .toLowerCase()
     .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss')
     .normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
-  return `manual_${slug || 'bild'}`;
+  return `manual_${slug || 'bild'}-${hash}`;
 }
 
 export function dateFromFilename(filename) {
@@ -30,15 +33,11 @@ export async function listManualFiles(dir) {
     if (err.code === 'ENOENT') return [];
     throw err;
   }
-  const used = new Map();
   const out = [];
   for (const name of names.filter((n) => IMAGE_EXT.test(n)).sort()) {
-    const base = manualId(name);
-    const count = (used.get(base) ?? 0) + 1;
-    used.set(base, count);
     const file = join(dir, name);
     const date = dateFromFilename(name) ?? (await stat(file)).mtime.toISOString();
-    out.push({ id: count === 1 ? base : `${base}-${count}`, file, date });
+    out.push({ id: manualId(name), file, date });
   }
   return out;
 }
