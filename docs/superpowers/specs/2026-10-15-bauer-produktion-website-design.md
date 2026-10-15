@@ -90,7 +90,8 @@ bauer-produktion/
    "src": "media/photos/ig_1801-1600.webp", "thumb": "media/photos/ig_1801-800.webp",
    "w": 1080, "h": 1350 }]
 ```
-`videos.json`: `id` (YouTube-ID), `title`, `date`, `thumb` (YouTube-Vorschaubild-URL).
+`videos.json`: `id` (YouTube-ID), `title`, `date`, `thumb` und `thumbSmall`. Die Vorschaubilder werden beim Sync
+heruntergeladen und lokal unter `media/videos/` gespeichert, damit vor dem Klick keine Verbindung zu Google entsteht.
 `hidden.json`: `{ "photos": ["ig_…"], "videos": ["…"] }`.
 
 ### 5.3 Ablauf von `sync.mjs`
