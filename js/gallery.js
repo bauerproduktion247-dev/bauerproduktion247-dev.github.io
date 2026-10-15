@@ -1,7 +1,7 @@
 import { gsap, reduced } from './motion.js';
-import { altText, pad, tileSize, firstPage } from './data.js';
+import { altText, pad, firstPage } from './data.js';
 
-const STRIP_COUNT = 12;
+export const STRIP_COUNT = 6;
 const PAGE_SIZE = 24;
 
 function photoButton(photo, index, onOpen, sizes, eager = false) {
@@ -24,7 +24,7 @@ function photoButton(photo, index, onOpen, sizes, eager = false) {
 }
 
 export function initStrip(section, photos, lightbox) {
-  const items = photos.slice(0, STRIP_COUNT);
+  const items = photos;
   const track = section.querySelector('[data-strip-track]');
   const viewport = section.querySelector('.strip__viewport');
   const pin = section.querySelector('.strip__pin');
@@ -101,7 +101,7 @@ export function initArchive(section, photos, lightbox) {
     for (let i = rendered; i < list.length; i++) {
       const photo = list[i];
       const li = document.createElement('li');
-      li.className = `archive__item archive__item--${tileSize(photo.w, photo.h)}`;
+      li.className = 'archive__item';
       li.append(photoButton(photo, i, (idx) => lightbox.open(photos, idx), '(max-width: 700px) 50vw, 33vw'));
       grid.append(li);
       fresh.push(li);

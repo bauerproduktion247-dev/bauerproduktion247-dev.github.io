@@ -1,9 +1,9 @@
-import { dataBase, loadJSON, visible } from './data.js';
+import { dataBase, loadJSON, visible, splitGallery } from './data.js';
 import { initMotion, gsap, reduced } from './motion.js';
-import { initNav, initCopy, initCounters, initReveal, initServices, hideSection, splitChars } from './ui.js';
+import { initNav, initCopy, initCounters, initReveal, hideSection, splitChars } from './ui.js';
 import { initHeroLogo } from './logo.js';
 import { createLightbox } from './lightbox.js';
-import { initStrip, initArchive } from './gallery.js';
+import { initStrip, initArchive, STRIP_COUNT } from './gallery.js';
 import { initVideos } from './videos.js';
 
 async function initHero() {
@@ -51,9 +51,11 @@ async function main() {
     onClose: () => lenis?.start(),
   });
   if (photos.length) {
+    const { strip, archive } = splitGallery(photos, STRIP_COUNT);
     setHeroBackground(photos[0]);
-    initStrip(document.querySelector('#neueste'), photos, lightbox);
-    initArchive(document.querySelector('#archiv'), photos, lightbox);
+    initStrip(document.querySelector('#neueste'), strip, lightbox);
+    if (archive.length) initArchive(document.querySelector('#archiv'), archive, lightbox);
+    else hideSection('archiv');
   } else {
     hideSection('neueste');
     hideSection('archiv');
@@ -63,7 +65,6 @@ async function main() {
   const scrollCue = document.querySelector('.hero__scroll');
   if (scrollCue && !photos.length) scrollCue.href = videos.length ? '#videos' : '#leistungen';
 
-  initServices(photos);
   initCounters({ photos: photos.length, videos: videos.length });
   initReveal();
   await hero;

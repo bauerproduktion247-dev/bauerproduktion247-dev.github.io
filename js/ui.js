@@ -93,28 +93,6 @@ export function initReveal(root = document) {
   });
 }
 
-export function initServices(photos) {
-  const rows = document.querySelectorAll('[data-service]');
-  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  if (!rows.length || !canHover || !photos.length) return;
-  const img = document.createElement('img');
-  img.className = 'services__preview';
-  img.alt = '';
-  img.setAttribute('aria-hidden', 'true');
-  document.body.append(img);
-  rows.forEach((row, i) => {
-    const photo = photos[i % photos.length];
-    row.addEventListener('mouseenter', () => {
-      img.src = photo.thumb;
-      img.classList.add('services__preview--on');
-    });
-    row.addEventListener('mouseleave', () => img.classList.remove('services__preview--on'));
-    row.addEventListener('mousemove', (e) => {
-      img.style.setProperty('--x', `${e.clientX}px`);
-      img.style.setProperty('--y', `${e.clientY}px`);
-    });
-  });
-}
 
 export function splitChars(el) {
   if (!el) return [];

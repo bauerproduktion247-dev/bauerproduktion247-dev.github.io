@@ -37,3 +37,14 @@ test('pad, tileSize, dataBase', () => {
   assert.equal(dataBase('?dev'), 'dev-data/');
   assert.equal(dataBase(''), 'data/');
 });
+
+test('splitGallery: Filmstreifen zeigt die neuesten, Archiv nur den Rest – ohne Doppelungen', async () => {
+  const { splitGallery } = await import('../../js/data.js');
+  const list = Array.from({ length: 12 }, (_, i) => ({ id: `p${i}` }));
+  const { strip, archive } = splitGallery(list, 6);
+  assert.deepEqual(strip.map((p) => p.id), ['p0', 'p1', 'p2', 'p3', 'p4', 'p5']);
+  assert.deepEqual(archive.map((p) => p.id), ['p6', 'p7', 'p8', 'p9', 'p10', 'p11']);
+  const few = splitGallery(list.slice(0, 4), 6);
+  assert.equal(few.strip.length, 4);
+  assert.deepEqual(few.archive, []);
+});

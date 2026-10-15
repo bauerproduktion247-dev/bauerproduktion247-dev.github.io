@@ -44,3 +44,7 @@ export function tileSize(w, h) {
   if (ratio <= 0.85) return 'tall';
   return 'std';
 }
+
+export function splitGallery(photos, stripCount) {
+  return { strip: photos.slice(0, stripCount), archive: photos.slice(stripCount) };
+}
