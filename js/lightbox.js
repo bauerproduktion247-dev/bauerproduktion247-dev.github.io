@@ -34,12 +34,19 @@ export function createLightbox(dialog, { onOpen, onClose } = {}) {
     if (e.key === 'ArrowRight') step(1);
   });
   let startX = null;
-  dialog.addEventListener('pointerdown', (e) => { startX = e.clientX; });
+  let swiped = false;
+  dialog.addEventListener('pointerdown', (e) => { startX = e.clientX; swiped = false; });
   dialog.addEventListener('pointerup', (e) => {
     if (startX === null) return;
     const dx = e.clientX - startX;
     startX = null;
-    if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1);
+    swiped = Math.abs(dx) > 50;
+    if (swiped) step(dx < 0 ? 1 : -1);
+  });
+  // Klick auf den Hintergrund (nicht Bild, Text oder Buttons) schließt – außer nach einem Wisch.
+  const figure = dialog.querySelector('.lightbox__figure');
+  dialog.addEventListener('click', (e) => {
+    if (!swiped && (e.target === dialog || e.target === figure)) dialog.close();
   });
   dialog.addEventListener('close', () => {
     onClose?.();
