@@ -18,7 +18,7 @@ Roleplay in Szene gesetzt. Statische Website auf GitHub Pages. Neue Instagram-Bi
 |---|---|
 | neue Bilder zeigen | Einfach auf Instagram posten. Sie erscheinen am nächsten Morgen. Sofort: *Actions → Run workflow*. |
 | ein neues Video zeigen | Auf YouTube hochladen (keine Shorts). Es erscheint automatisch. |
-| ein älteres Bild ergänzen | Datei in den Ordner `manual/` hochladen, am besten als `JJJJ-MM-TT_name.jpg`. |
+| ein älteres Bild ergänzen | Datei in den Ordner `manual/` hochladen, am besten als `JJJJ-MM-TT_name.jpg`. Ohne Datum im Namen gilt das Aufnahmedatum aus den Bilddaten (EXIF), sonst das Hochladedatum. |
 | ein Bild/Video ausblenden | Die `id` aus `data/photos.json` bzw. `data/videos.json` in `data/hidden.json` eintragen. |
 | ein Script eintragen | `data/scripts.json` bearbeiten (siehe Beispiel unten). |
 | die Follower-Zahl ändern | In `index.html` bei `data-count="690"` die Zahl anpassen (zweimal: Attribut und Text). |

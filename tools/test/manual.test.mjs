@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtemp, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import sharp from 'sharp';
 import { manualId, dateFromFilename, listManualFiles } from '../lib/manual.mjs';
 
 const HASH = '-[0-9a-f]{6}$';
@@ -42,6 +43,22 @@ test('listet nur Bilder, sortiert, mit eindeutigen IDs', async () => {
   const xmas = list.find((m) => m.file.endsWith('2024-12-24_weihnacht.jpg'));
   assert.equal(xmas.date, '2024-12-24T12:00:00.000Z');
   assert.match(list.find((m) => m.file.endsWith('foto-1.png')).date, /^\d{4}-\d{2}-\d{2}T/);
+});
+
+test('ohne Datums-Präfix wird EXIF DateTimeOriginal genutzt (nicht DateTime)', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'bp-man-'));
+  const exif = (tags) => sharp({ create: { width: 4, height: 4, channels: 3, background: '#000' } }).jpeg().withExif(tags).toBuffer();
+  await writeFile(join(dir, 'kamera.jpg'), await exif({
+    IFD0: { DateTime: '2020:01:01 00:00:00' },
+    IFD2: { DateTimeOriginal: '2023:05:17 18:30:00' },
+  }));
+  await writeFile(join(dir, 'bearbeitet.jpg'), await exif({ IFD0: { DateTime: '2020:01:01 00:00:00' } }));
+  await writeFile(join(dir, '2024-12-24_mit-exif.jpg'), await exif({ IFD2: { DateTimeOriginal: '2023:05:17 18:30:00' } }));
+  const list = await listManualFiles(dir);
+  const date = (name) => list.find((m) => m.file.endsWith(name)).date;
+  assert.equal(date('kamera.jpg'), '2023-05-17T18:30:00.000Z');
+  assert.notEqual(date('bearbeitet.jpg'), '2020-01-01T00:00:00.000Z');
+  assert.equal(date('2024-12-24_mit-exif.jpg'), '2024-12-24T12:00:00.000Z');
 });
 
 test('ID einer Datei bleibt gleich, wenn später ähnlich benannte Dateien dazukommen', async () => {
