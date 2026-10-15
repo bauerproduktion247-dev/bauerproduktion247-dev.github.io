@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="de" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scripts – Bauer Produktion</title>
+  <meta name="description" content="FiveM-Scripts von Bauer Produktion.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" type="image/png" href="assets/logo/favicon-64.png">
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.replace('no-js', 'js');</script>
+</head>
+<body>
+  <a class="skip" href="#main">Zum Inhalt springen</a>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="nav" data-nav>
+    <a class="nav__brand" href="./" aria-label="Bauer Produktion – Startseite">BAUER</a>
+    <button class="nav__toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-menu">Menü</button>
+    <nav id="nav-menu" class="nav__menu" data-nav-menu aria-label="Hauptnavigation">
+      <a href="./#neueste">Portfolio</a>
+      <a href="./#videos">Videos</a>
+      <a href="./#leistungen">Leistungen</a>
+      <a href="./#ueber">Über</a>
+      <a href="scripts.html" aria-current="page">Scripts</a>
+      <a href="./#kontakt">Kontakt</a>
+    </nav>
+  </header>
+  <main id="main">
+    <section class="page-hero">
+      <span class="eyebrow">Werkstatt</span>
+      <h1 class="display" data-reveal>FiveM Scripts</h1>
+      <p data-reveal>Neben der Kamera entstehen hier eigene Scripts für FiveM-Server. Fragen dazu gern über Discord.</p>
+    </section>
+    <section class="section" style="padding-top:0" aria-label="Script-Liste">
+      <div class="scripts__grid" data-scripts-grid></div>
+      <div class="terminal" data-scripts-empty hidden>
+        <div class="terminal__bar" aria-hidden="true"><span></span><span></span><span></span></div>
+        <p class="terminal__body"><span class="terminal__prompt">bauer@produktion:~$</span> ls ./fivem-scripts
+Scripts folgen in Kürze. <span class="terminal__cursor" aria-hidden="true"></span></p>
+      </div>
+      <noscript><p>Die Script-Liste benötigt JavaScript.</p></noscript>
+    </section>
+  </main>
+  <footer class="footer">
+    <img src="assets/logo/logo-horizontal-white.webp" alt="Bauer Produktion" width="2000" height="667" loading="lazy">
+    <a href="datenschutz.html">Datenschutz</a>
+    <span>© Bauer Produktion</span>
+  </footer>
+  <script src="vendor/gsap/gsap.min.js" defer></script>
+  <script src="vendor/gsap/ScrollTrigger.min.js" defer></script>
+  <script src="vendor/lenis/lenis.min.js" defer></script>
+  <script type="module" src="js/scripts.js"></script>
+</body>
+</html>
