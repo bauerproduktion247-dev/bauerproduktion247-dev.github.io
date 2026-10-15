@@ -23,6 +23,8 @@ a { color: inherit; }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 :focus-visible { outline: 1px solid var(--fg); outline-offset: 4px; }
 [hidden] { display: none !important; }
+/* Ohne JS bleiben die datengetriebenen Sektionen leer – dann gar nicht erst zeigen, samt Links dorthin. */
+.no-js [data-section], .no-js [data-section-link], .no-js .hero__scroll { display: none; }
 .skip { position: absolute; left: -9999px; top: 8px; z-index: 100; background: var(--fg); color: var(--bg); padding: 8px 12px; }
 .skip:focus { left: 8px; }
 
