@@ -54,6 +54,7 @@ jobs:
             echo "Keine neuen Inhalte."
           else
             git commit -m "chore: sync media"
+            git pull --rebase
             git push
           fi
 
