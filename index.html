@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="de" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bauer Produktion – Roleplay in Szene gesetzt</title>
+  <meta name="description" content="Bauer Produktion – privates Roleplay-Fotostudio für GTA RP. Shootings, Edits, Stories und Videos. Jede Rolle verdient ihr Bild.">
+  <meta name="theme-color" content="#000000">
+  <meta property="og:title" content="Bauer Produktion">
+  <meta property="og:description" content="Roleplay in Szene gesetzt. Jede Rolle verdient ihr Bild.">
+  <meta property="og:image" content="assets/logo/logo-square-white.webp">
+  <link rel="icon" type="image/png" href="assets/logo/favicon-64.png">
+  <link rel="apple-touch-icon" href="assets/logo/apple-touch-icon.png">
+  <link rel="preload" href="vendor/fonts/montserrat-200.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    document.documentElement.classList.replace('no-js', 'js');
+    setTimeout(function () { document.documentElement.classList.add('js-ready'); }, 3000);
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Zum Inhalt springen</a>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="nav" data-nav>
+    <a class="nav__brand" href="./" aria-label="Bauer Produktion – Startseite">BAUER</a>
+    <button class="nav__toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-menu">Menü</button>
+    <nav id="nav-menu" class="nav__menu" data-nav-menu aria-label="Hauptnavigation">
+      <a href="#neueste" data-section-link="neueste">Portfolio</a>
+      <a href="#videos" data-section-link="videos">Videos</a>
+      <a href="#leistungen">Leistungen</a>
+      <a href="#ueber">Über</a>
+      <a href="scripts.html">Scripts</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-label="Intro">
+      <div class="hero__bg" data-hero-bg aria-hidden="true"></div>
+      <div class="hero__inner">
+        <div class="hero__logo" data-logo>
+          <img src="assets/logo/logo.svg" alt="" width="554" height="684">
+        </div>
+        <h1 class="hero__title" data-hero-reveal>
+          <span class="hero__word" data-hero-word>Bauer</span>
+          <span class="hero__sub" data-hero-sub>Produktion</span>
+        </h1>
+        <div class="hero__rule" data-hero-reveal aria-hidden="true"></div>
+        <p class="hero__claim" data-hero-reveal>Jede Rolle verdient ihr Bild.</p>
+      </div>
+      <a class="hero__scroll" href="#neueste" data-hero-reveal>Scrollen</a>
+    </section>
+
+    <section class="strip" id="neueste" data-section="neueste" aria-labelledby="neueste-title">
+      <div class="strip__pin">
+        <header class="section-head">
+          <span class="eyebrow">01 · Portfolio</span>
+          <h2 id="neueste-title" class="display">Neueste Shootings</h2>
+        </header>
+        <div class="strip__viewport">
+          <ul class="strip__track" data-strip-track></ul>
+        </div>
+        <div class="strip__meta" aria-hidden="true">
+          <div class="strip__bar"><span data-strip-progress></span></div>
+          <p class="strip__count"><span data-strip-current>01</span><small> / <span data-strip-total>00</span></small></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section archive" id="archiv" data-section="archiv" aria-labelledby="archiv-title">
+      <header class="section-head" data-reveal>
+        <span class="eyebrow">02 · Archiv</span>
+        <h2 id="archiv-title" class="display">Alle Arbeiten</h2>
+      </header>
+      <ul class="archive__grid" data-archive-grid></ul>
+      <button class="btn archive__more" type="button" data-archive-more hidden>Mehr laden</button>
+    </section>
+
+    <section class="videos" id="videos" data-section="videos" aria-labelledby="videos-title">
+      <div class="section">
+        <header class="section-head" data-reveal>
+          <span class="eyebrow">03 · Video-Projekte</span>
+          <h2 id="videos-title" class="display">In Bewegung</h2>
+        </header>
+        <p class="videos__note">Videos werden erst nach Klick auf „Abspielen“ von YouTube geladen.</p>
+      </div>
+      <div class="videos__stack" data-video-stack></div>
+    </section>
+
+    <section class="section" id="leistungen" aria-labelledby="leistungen-title">
+      <header class="section-head" data-reveal>
+        <span class="eyebrow">04 · Leistungen</span>
+        <h2 id="leistungen-title" class="display">Was ich mache</h2>
+      </header>
+      <ul class="services__list">
+        <li class="services__row" data-service data-reveal>
+          <span class="services__num">01</span>
+          <h3 class="services__name">Shootings</h3>
+          <p class="services__text">Deine Figur, dein Moment. Ob Porträt, Paar, Crew oder Fahrzeug – ich setze deine Rolle in Szene.</p>
+        </li>
+        <li class="services__row" data-service data-reveal>
+          <span class="services__num">02</span>
+          <h3 class="services__name">Edits</h3>
+          <p class="services__text">Farblook, Retusche, Atmosphäre. Aus einem guten Screenshot wird ein Bild mit Geschichte.</p>
+        </li>
+        <li class="services__row" data-service data-reveal>
+          <span class="services__num">03</span>
+          <h3 class="services__name">Stories &amp; Videos</h3>
+          <p class="services__text">Kurze Clips, Carporn, Ankündigungen und Trailer für Projekte, Fraktionen und Firmen.</p>
+        </li>
+      </ul>
+      <div class="notice">
+        <div class="notice__box" data-reveal>
+          <h3>Privat &amp; ohne feste Preise</h3>
+          <p>Bauer Produktion ist ein privates Hobbyprojekt. Es gibt keine festen Preise. Über eine freiwillige Aufwandsentschädigung freue ich mich, sie ist aber kein Muss.</p>
+        </div>
+        <div class="notice__box" data-reveal>
+          <h3>Bildrechte</h3>
+          <p>Alle Fotos und Videos werden von Bauer Produktion erstellt, die Urheberrechte bleiben bei Bauer Produktion. Du darfst deine Bilder für dein Roleplay nutzen, etwa auf Social Media, in Discord oder auf deinem Server, wenn du <strong>@bauer_rp</strong> als Quelle nennst. Weiterverkauf, das Ausgeben als eigene Arbeit oder das Entfernen der Kennzeichnung ist nicht erlaubt. Bauer Produktion darf alle Aufnahmen im eigenen Portfolio und auf Social Media zeigen.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="ueber" aria-labelledby="ueber-title">
+      <header class="section-head" data-reveal>
+        <span class="eyebrow">05 · Über</span>
+        <h2 id="ueber-title" class="display">Bauer Produktion</h2>
+      </header>
+      <div class="about">
+        <p class="about__text" data-reveal>Hinter Bauer Produktion steckt die Leidenschaft, Roleplay so festzuhalten, wie es sich anfühlt: filmisch, nah und mit Charakter. Jede Rolle verdient ihr Bild.</p>
+        <dl class="about__stats" data-reveal>
+          <div><dt>Follower</dt><dd data-count="690" data-suffix="+">690+</dd></div>
+          <div><dt>Bilder im Archiv</dt><dd data-count="photos">–</dd></div>
+          <div><dt>Videos</dt><dd data-count="videos">–</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="section" id="scripts-teaser" aria-labelledby="scripts-title">
+      <header class="section-head" data-reveal>
+        <span class="eyebrow">06 · Nebenbei</span>
+        <h2 id="scripts-title" class="display">Scripts</h2>
+      </header>
+      <a class="terminal" href="scripts.html" data-reveal>
+        <div class="terminal__bar" aria-hidden="true"><span></span><span></span><span></span></div>
+        <p class="terminal__body"><span class="terminal__prompt">bauer@produktion:~$</span> ls ./fivem-scripts
+Eigene FiveM-Scripts aus der Werkstatt.
+→ Zur Scripts-Seite <span class="terminal__cursor" aria-hidden="true"></span></p>
+      </a>
+    </section>
+
+    <section class="section" id="kontakt" aria-labelledby="kontakt-title">
+      <span class="eyebrow">07 · Kontakt</span>
+      <h2 id="kontakt-title" class="display contact__title" data-reveal>Lass uns deine Rolle in Szene setzen.</h2>
+      <ul class="contact__list">
+        <li class="contact__item">
+          <button class="contact__link" type="button" data-copy="dominikbauer">
+            <span class="contact__label">Discord</span>
+            <span class="contact__value">dominikbauer</span>
+            <span class="contact__status" data-copy-status aria-live="polite">Klicken zum Kopieren</span>
+          </button>
+        </li>
+        <li class="contact__item">
+          <a class="contact__link" href="https://www.instagram.com/bauer_rp/" target="_blank" rel="noopener">
+            <span class="contact__label">Instagram</span>
+            <span class="contact__value">@bauer_rp</span>
+          </a>
+        </li>
+        <li class="contact__item">
+          <a class="contact__link" href="https://www.youtube.com/@bauerproduktion" target="_blank" rel="noopener">
+            <span class="contact__label">YouTube</span>
+            <span class="contact__value">@bauerproduktion</span>
+          </a>
+        </li>
+        <li class="contact__item">
+          <a class="contact__link" href="mailto:bauer.produktion.247@gmail.com">
+            <span class="contact__label">E-Mail</span>
+            <span class="contact__value">bauer.produktion.247@gmail.com</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <img src="assets/logo/logo-horizontal-white.webp" alt="Bauer Produktion" width="2000" height="667" loading="lazy">
+    <a href="datenschutz.html">Datenschutz</a>
+    <span>© Bauer Produktion</span>
+  </footer>
+
+  <dialog class="lightbox" data-lightbox aria-label="Bild-Großansicht">
+    <div class="flash" data-lb-flash aria-hidden="true"></div>
+    <span class="lightbox__counter" data-lb-counter></span>
+    <button class="lightbox__btn lightbox__close" type="button" data-lb-close>Schließen</button>
+    <button class="lightbox__btn lightbox__prev" type="button" data-lb-prev aria-label="Vorheriges Bild">←</button>
+    <button class="lightbox__btn lightbox__next" type="button" data-lb-next aria-label="Nächstes Bild">→</button>
+    <figure class="lightbox__figure">
+      <img class="lightbox__img" data-lb-img alt="">
+      <figcaption class="lightbox__caption">
+        <span data-lb-caption></span>
+        <a data-lb-link href="#" target="_blank" rel="noopener" hidden>Auf Instagram ansehen ↗</a>
+      </figcaption>
+    </figure>
+  </dialog>
+
+  <script src="vendor/gsap/gsap.min.js" defer></script>
+  <script src="vendor/gsap/ScrollTrigger.min.js" defer></script>
+  <script src="vendor/gsap/DrawSVGPlugin.min.js" defer></script>
+  <script src="vendor/lenis/lenis.min.js" defer></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
