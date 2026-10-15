@@ -60,6 +60,8 @@ async function main() {
   }
   if (videos.length) initVideos(document.querySelector('#videos'), videos);
   else hideSection('videos');
+  const scrollCue = document.querySelector('.hero__scroll');
+  if (scrollCue && !photos.length) scrollCue.href = videos.length ? '#videos' : '#leistungen';
 
   initServices(photos);
   initCounters({ photos: photos.length, videos: videos.length });
