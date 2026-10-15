@@ -7,7 +7,8 @@ const PAGE_SIZE = 24;
 function photoButton(photo, index, onOpen, sizes, eager = false) {
   const btn = document.createElement('button');
   btn.type = 'button';
-  btn.setAttribute('aria-label', `Bild ${index + 1} groß anzeigen`);
+  // Kein aria-label: der Alt-Text des Bildes bleibt der zugängliche Name, haspopup kündigt die Großansicht an.
+  btn.setAttribute('aria-haspopup', 'dialog');
   const img = document.createElement('img');
   img.src = photo.thumb;
   img.srcset = `${photo.thumb} 800w, ${photo.src} 1600w`;
