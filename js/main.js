@@ -4,6 +4,7 @@ import { initNav, initCopy, initCounters, initReveal, initServices, hideSection,
 import { initHeroLogo } from './logo.js';
 import { createLightbox } from './lightbox.js';
 import { initStrip, initArchive } from './gallery.js';
+import { initVideos } from './videos.js';
 
 async function initHero() {
   const animate = Boolean(gsap) && !reduced;
@@ -57,7 +58,8 @@ async function main() {
     hideSection('neueste');
     hideSection('archiv');
   }
-  if (!videos.length) hideSection('videos');
+  if (videos.length) initVideos(document.querySelector('#videos'), videos);
+  else hideSection('videos');
 
   initServices(photos);
   initCounters({ photos: photos.length, videos: videos.length });
