@@ -2,6 +2,8 @@ import { dataBase, loadJSON, visible } from './data.js';
 import { initMotion, gsap, reduced } from './motion.js';
 import { initNav, initCopy, initCounters, initReveal, initServices, hideSection, splitChars } from './ui.js';
 import { initHeroLogo } from './logo.js';
+import { createLightbox } from './lightbox.js';
+import { initStrip, initArchive } from './gallery.js';
 
 async function initHero() {
   const animate = Boolean(gsap) && !reduced;
@@ -43,8 +45,18 @@ async function main() {
   const photos = visible(photosRaw, hiddenRaw?.photos);
   const videos = visible(videosRaw, hiddenRaw?.videos);
 
-  if (photos.length) setHeroBackground(photos[0]);
-  else { hideSection('neueste'); hideSection('archiv'); }
+  const lightbox = createLightbox(document.querySelector('[data-lightbox]'), {
+    onOpen: () => lenis?.stop(),
+    onClose: () => lenis?.start(),
+  });
+  if (photos.length) {
+    setHeroBackground(photos[0]);
+    initStrip(document.querySelector('#neueste'), photos, lightbox);
+    initArchive(document.querySelector('#archiv'), photos, lightbox);
+  } else {
+    hideSection('neueste');
+    hideSection('archiv');
+  }
   if (!videos.length) hideSection('videos');
 
   initServices(photos);
