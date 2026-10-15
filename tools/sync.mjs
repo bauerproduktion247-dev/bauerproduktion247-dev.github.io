@@ -1,3 +1,4 @@
+import { appendFile } from 'node:fs/promises';
 import { join, resolve, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { readJSON, writeJSONIfChanged } from './lib/store.mjs';
@@ -41,10 +42,11 @@ function photoEntry(item, files, source) {
   };
 }
 
-async function collectInstagram({ beholdUrl, fetchFn, known, photoDir, errors, log }) {
+async function collectInstagram({ beholdUrl, fetchFn, known, photoDir, errors, outages, log }) {
   const added = [];
   if (!beholdUrl) {
     log.warn('BEHOLD_FEED_URL fehlt – Instagram wird übersprungen.');
+    outages.push({ source: 'Instagram', reason: 'BEHOLD_FEED_URL fehlt (Secret nicht gesetzt)' });
     return added;
   }
   let items;
@@ -54,6 +56,7 @@ async function collectInstagram({ beholdUrl, fetchFn, known, photoDir, errors, l
     items = parseBeholdFeed(await res.json());
   } catch (err) {
     errors.push(`Instagram: ${err.message}`);
+    outages.push({ source: 'Instagram', reason: err.message });
     return added;
   }
   for (const item of items) {
@@ -84,7 +87,7 @@ async function collectManual({ manualDir, known, photoDir, errors }) {
   return added;
 }
 
-async function collectYouTube({ channelId, fetchFn, known, videoDir, errors }) {
+async function collectYouTube({ channelId, fetchFn, known, videoDir, errors, outages }) {
   const added = [];
   let entries;
   try {
@@ -93,6 +96,7 @@ async function collectYouTube({ channelId, fetchFn, known, videoDir, errors }) {
     entries = parseYouTubeRss(await res.text());
   } catch (err) {
     errors.push(`YouTube: ${err.message}`);
+    outages.push({ source: 'YouTube', reason: err.message });
     return added;
   }
   for (const video of entries) {
@@ -121,21 +125,42 @@ export async function runSync({ root, beholdUrl, channelId = CHANNEL_ID, fetchFn
   const photos = await readJSON(photosFile, []);
   const videos = await readJSON(videosFile, []);
   const errors = [];
+  const outages = [];
   const photoDir = join(root, 'media', 'photos');
   const knownPhotos = new Set(photos.map((p) => p.id));
 
   const newPhotos = [
-    ...(await collectInstagram({ beholdUrl, fetchFn, known: knownPhotos, photoDir, errors, log })),
+    ...(await collectInstagram({ beholdUrl, fetchFn, known: knownPhotos, photoDir, errors, outages, log })),
     ...(await collectManual({ manualDir: join(root, 'manual'), known: knownPhotos, photoDir, errors })),
   ];
   const newVideos = await collectYouTube({
-    channelId, fetchFn, known: new Set(videos.map((v) => v.id)), videoDir: join(root, 'media', 'videos'), errors,
+    channelId, fetchFn, known: new Set(videos.map((v) => v.id)), videoDir: join(root, 'media', 'videos'), errors, outages,
   });
 
   const photosChanged = await writeJSONIfChanged(photosFile, mergeEntries(photos, newPhotos).list);
   const videosChanged = await writeJSONIfChanged(videosFile, mergeEntries(videos, newVideos).list);
   for (const message of errors) log.error(message);
-  return { addedPhotos: newPhotos.length, addedVideos: newVideos.length, errors, changed: photosChanged || videosChanged };
+  return {
+    addedPhotos: newPhotos.length,
+    addedVideos: newVideos.length,
+    errors,
+    outages,
+    failedSources: outages.map((o) => o.source),
+    changed: photosChanged || videosChanged,
+  };
+}
+
+/** Markdown für $GITHUB_STEP_SUMMARY – leer, solange keine ganze Quelle ausgefallen ist. */
+export function stepSummary(result) {
+  if (!result.outages.length) return '';
+  return [
+    '## ⚠️ Sync: Quelle ausgefallen',
+    '',
+    'Bestehende Inhalte bleiben erhalten, aber von diesen Quellen kam heute nichts Neues:',
+    '',
+    ...result.outages.map((o) => `- **${o.source}:** ${o.reason}`),
+    '',
+  ].join('\n');
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
@@ -147,5 +172,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     error: (m) => console.log(ci ? `::warning::${m}` : `FEHLER: ${m}`),
   };
   const result = await runSync({ root, beholdUrl: process.env.BEHOLD_FEED_URL, log });
+  const summary = stepSummary(result);
+  if (summary && process.env.GITHUB_STEP_SUMMARY) await appendFile(process.env.GITHUB_STEP_SUMMARY, summary);
   console.log(`Neue Bilder: ${result.addedPhotos} · neue Videos: ${result.addedVideos} · Probleme: ${result.errors.length}`);
 }

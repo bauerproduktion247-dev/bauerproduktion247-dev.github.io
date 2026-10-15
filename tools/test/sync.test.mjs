@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, readFile, writeFile, access } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { runSync } from '../sync.mjs';
+import { runSync, stepSummary } from '../sync.mjs';
 import { rssUrl, shortsUrl, thumbUrls } from '../lib/youtube.mjs';
 import { beholdFeed, rssXml, makeImage, fakeFetch, json, text, bytes, status, memoryLog } from './helpers.mjs';
 
@@ -71,6 +71,21 @@ test('Behold-Ausfall: Bestand bleibt, YouTube läuft weiter', async () => {
   assert.match(res.errors[0], /Instagram/);
   assert.deepEqual(await read(root, 'photos.json'), existing);
   assert.equal(res.addedVideos, 1);
+  assert.deepEqual(res.failedSources, ['Instagram']);
+});
+
+test('Zusammenfassung nur bei Ausfall einer ganzen Quelle', async () => {
+  const { root, routes } = await setup();
+  assert.equal(stepSummary(await runSync(opts(root, routes))), '');
+  routes[BEHOLD] = status(500);
+  routes[rssUrl(CH)] = status(503);
+  const res = await runSync(opts(root, routes));
+  assert.deepEqual(res.failedSources, ['Instagram', 'YouTube']);
+  const md = stepSummary(res);
+  assert.match(md, /Instagram/);
+  assert.match(md, /YouTube/);
+  assert.match(md, /HTTP 500/);
+  assert.match(md, /HTTP 503/);
 });
 
 test('kaputte Bild-URL: nur dieser Post fehlt, Rest wird gespeichert', async () => {
@@ -80,6 +95,7 @@ test('kaputte Bild-URL: nur dieser Post fehlt, Rest wird gespeichert', async () 
   assert.equal(res.addedPhotos, 2);
   assert.equal(res.errors.length, 1);
   assert.match(res.errors[0], /ig_222a/);
+  assert.deepEqual(res.failedSources, []);
 });
 
 test('kaputte photos.json: Sync bricht ab und überschreibt nichts', async () => {
@@ -95,6 +111,8 @@ test('ohne Behold-URL wird Instagram übersprungen und gewarnt', async () => {
   const res = await runSync(o);
   assert.equal(res.addedPhotos, 0);
   assert.deepEqual(res.errors, []);
+  assert.deepEqual(res.failedSources, ['Instagram']);
+  assert.match(stepSummary(res), /BEHOLD_FEED_URL/);
   assert.match(o.log.lines.warn[0], /BEHOLD_FEED_URL/);
 });
 
