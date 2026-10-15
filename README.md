@@ -37,6 +37,11 @@ Beispiel für `data/scripts.json`:
 ]
 ```
 
+### Wenn nichts Neues mehr erscheint
+
+- **Täglicher Lauf pausiert:** GitHub schaltet geplante Workflows ab, wenn im Repository 60 Tage lang nichts passiert ist (die automatischen Sync-Commits zählen dabei nicht immer). Dann oben unter *Actions* auf **Sync & Deploy** klicken und **Enable workflow** wählen, anschließend einmal *Run workflow* starten. Jede eigene Änderung am Repository (z. B. ein Bild in `manual/` hochladen) setzt die 60 Tage ebenfalls zurück.
+- **Quelle ausgefallen:** Ist Instagram (Behold) oder YouTube komplett nicht erreichbar, steht im jeweiligen Lauf unter *Actions → Sync & Deploy → (Lauf)* oben eine Zusammenfassung „Sync: Quelle ausgefallen“. Die bestehenden Inhalte bleiben in jedem Fall erhalten.
+
 ## Entwicklung
 
 ```bash
