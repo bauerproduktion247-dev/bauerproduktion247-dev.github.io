@@ -15,11 +15,19 @@ test('leerer oder kaputter Feed ergibt leere Liste', () => {
   assert.deepEqual(parseYouTubeRss('<entry><title>ohne id</title></entry>'), []);
 });
 
-test('Short = /shorts/<id> antwortet mit 200, sonst kein Short', async () => {
-  const fetchFn = fakeFetch({ [shortsUrl('S')]: status(200), [shortsUrl('L')]: status(303) });
+test('Short = /shorts/<id> antwortet mit 200, Weiterleitung (3xx) = kein Short', async () => {
+  const fetchFn = fakeFetch({ [shortsUrl('S')]: status(200), [shortsUrl('L')]: status(303), [shortsUrl('M')]: status(301) });
   assert.equal(await isShort('S', fetchFn), true);
   assert.equal(await isShort('L', fetchFn), false);
+  assert.equal(await isShort('M', fetchFn), false);
   assert.equal(fetchFn.calls[0].method, 'HEAD');
+});
+
+test('unklare Antwort wirft, damit das Video beim nächsten Lauf erneut geprüft wird', async () => {
+  const fetchFn = fakeFetch({ [shortsUrl('A')]: status(429), [shortsUrl('B')]: status(500), [shortsUrl('C')]: status(404) });
+  await assert.rejects(() => isShort('A', fetchFn), /429/);
+  await assert.rejects(() => isShort('B', fetchFn), /500/);
+  await assert.rejects(() => isShort('C', fetchFn), /404/);
 });
 
 test('URLs', () => {

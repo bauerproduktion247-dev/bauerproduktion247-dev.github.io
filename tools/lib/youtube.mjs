@@ -20,5 +20,8 @@ export function parseYouTubeRss(xml) {
 
 export async function isShort(videoId, fetchFn = fetch) {
   const res = await fetchFn(shortsUrl(videoId), { method: 'HEAD', redirect: 'manual' });
-  return res.status === 200;
+  if (res.status === 200) return true;
+  if (res.status >= 300 && res.status < 400) return false;
+  // Alles andere (Rate-Limit, Serverfehler …) ist keine Antwort – lieber morgen erneut prüfen.
+  throw new Error(`Shorts-Prüfung: HTTP ${res.status}`);
 }
