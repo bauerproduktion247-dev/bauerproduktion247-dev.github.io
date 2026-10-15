@@ -1,0 +1,4 @@
+Hier kannst du eigene, ältere Bilder ablegen (jpg, png, webp).
+Tipp: Beginne den Dateinamen mit dem Datum, z. B. 2025-06-01_sommer.jpg –
+dann wird das Bild an der richtigen Stelle im Archiv einsortiert.
+Nach dem Hochladen auf GitHub erscheint das Bild automatisch auf der Website.
